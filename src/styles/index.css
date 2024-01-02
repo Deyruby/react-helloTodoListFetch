@@ -1,12 +1,50 @@
 
-/* 
+body{
+    background: black;
+    
+}
 
-    You can write your own styles here...
+.todolist{
+    background: rgba(221, 59, 107, 0.664);
+    height: 600px;
+    width: 700px;
+    margin: 0 auto;
+    }
+   
     
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+.header{
+    text-align: center;
+    font-size: 100px;
+    color: rgb(238, 231, 231);
+}
 
-*/
+.container{
+    text-align: center;
+    
+}
+
+input{
+    width: 100%;
+    
+ 
+    
+}
+
+
+
+
+ li{
+    list-style: none;
+    border: solid 1px black;
+    display: flex;
+    justify-content: space-between;
+    
+    color: black;
+   
+}
+
+.list{
+    padding-left: 8px ;
+    padding-right: 8px;
+}
+
