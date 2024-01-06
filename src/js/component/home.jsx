@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 const Home = () => {
 
 	const [task, setTask] = useState([])
-	const [ newtasks, setNestasks] = useState({label:"", done: false})
+	const [ newtasks, setNewtasks] = useState("")
 	
 	const createUser = async () => {
 		try {
@@ -58,11 +58,10 @@ const Home = () => {
 
 	}, [])
 	
-	const updateTask = () => {
-		console.log(task)
+	const updateTask = (tarea) => {
 		fetch("https://playground.4geeks.com/apis/fake/todos/user/deyruby", {
 			method: "PUT",
-			body: JSON.stringify(task),
+			body: JSON.stringify(tarea),
 			headers: {
 				"content-type": "application/json",
 
@@ -92,22 +91,16 @@ const Home = () => {
 }
 	const enterPressed = (event) => {
 		if (event.keyCode === 13 && event.target.value != "") {
-			setTask([...task, newtasks])
-			updateTask()
+			let variableAux = [...task, {label: newtasks, done: false}]
+			setTask(variableAux)
+			updateTask(variableAux)
+			setNewtasks("")
 
 		}
 	}
 	
 	
-	const handleChange = (event) => {
-		const tarea = {
-			label: event.target.value,
-			done: false,
-		}
-		setNestasks(tarea)
-		event.target.value = ""
-		
-	}
+	
 	return (
 		<>
 			<div className="todolist">
@@ -116,12 +109,12 @@ const Home = () => {
 				</div>
 				<div className="container">
 					<ul>
-						<li className="input1"><input type="text" value={newtasks.label} onChange={handleChange} name="label" placeholder="Add a new task" onKeyDown={(e) => enterPressed(e)} /></li>
+						<li className="input1"><input type="text" value={newtasks} onChange={e=>setNewtasks(e.target.value)} name="label" placeholder="Add a new task" onKeyDown={(e) => enterPressed(e)} /></li>
 						<button onClick={() => deleteTasks()}>Delete tasks</button>
 					
 
 						{
-							task.map((value, index) => {
+							task?.map((value, index) => {
 								//console.log("index", index)
 								return <li className="list" key={index}>{value.label}
 									<i onClick={() => setTask(task.filter((_, currentIndex) => {
