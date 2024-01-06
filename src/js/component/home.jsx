@@ -8,8 +8,8 @@ import React, { useState, useEffect } from "react";
 const Home = () => {
 
 	const [task, setTask] = useState([])
-	const [ newtasks, setNewtasks] = useState("")
-	
+	const [newtasks, setNewtasks] = useState("")
+
 	const createUser = async () => {
 		try {
 			let response = await fetch(("https://playground.4geeks.com/apis/fake/todos/user/deyruby"), {
@@ -27,7 +27,7 @@ const Home = () => {
 
 		}
 
-		
+
 
 	}
 
@@ -50,14 +50,20 @@ const Home = () => {
 			}
 			return response.json()
 		}).then((data) => {
-			//console.log("data", data)
-			setTask(data)
+			console.log("data", data)
+			if (data.msg && data.msg == "The user deyruby doesn't exists") {
+				setTask([])
+
+			} else {
+				setTask(data)
+			}
+
 		})
 			.catch((error) =>
 				console.log(error))
-
+		console.log(task)
 	}, [])
-	
+
 	const updateTask = (tarea) => {
 		fetch("https://playground.4geeks.com/apis/fake/todos/user/deyruby", {
 			method: "PUT",
@@ -78,29 +84,30 @@ const Home = () => {
 	}
 
 
-	const deleteTasks = () => { fetch("https://playground.4geeks.com/apis/fake/todos/user/deyruby", {
-		method: "DELETE",
-		headers: {
-			"content-type": "application/json",
+	const deleteTasks = () => {
+		fetch("https://playground.4geeks.com/apis/fake/todos/user/deyruby", {
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json",
 
-		},
-       
-	})
-	setTask([])
-	createUser()
-}
+			},
+
+		})
+		setTask([])
+		createUser()
+	}
 	const enterPressed = (event) => {
 		if (event.keyCode === 13 && event.target.value != "") {
-			let variableAux = [...task, {label: newtasks, done: false}]
+			let variableAux = [...task, { label: newtasks, done: false }]
 			setTask(variableAux)
 			updateTask(variableAux)
 			setNewtasks("")
 
 		}
 	}
-	
-	
-	
+
+
+
 	return (
 		<>
 			<div className="todolist">
@@ -109,9 +116,9 @@ const Home = () => {
 				</div>
 				<div className="container">
 					<ul>
-						<li className="input1"><input type="text" value={newtasks} onChange={e=>setNewtasks(e.target.value)} name="label" placeholder="Add a new task" onKeyDown={(e) => enterPressed(e)} /></li>
+						<li className="input1"><input type="text" value={newtasks} onChange={e => setNewtasks(e.target.value)} name="label" placeholder="Add a new task" onKeyDown={(e) => enterPressed(e)} /></li>
 						<button onClick={() => deleteTasks()}>Delete tasks</button>
-					
+
 
 						{
 							task?.map((value, index) => {
