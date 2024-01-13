@@ -62,7 +62,7 @@ const Home = () => {
 			.catch((error) =>
 				console.log(error))
 		console.log(task)
-	}, [])
+	}, [newtasks])
 
 	const updateTask = (tarea) => {
 		fetch("https://playground.4geeks.com/apis/fake/todos/user/deyruby", {
@@ -81,6 +81,10 @@ const Home = () => {
 			.catch((error) =>
 				console.log(error))
 
+
+
+
+
 	}
 
 
@@ -96,10 +100,34 @@ const Home = () => {
 		setTask([])
 		createUser()
 	}
+
+	const deleteTaskintheApi = () => {
+		fetch("https://playground.4geeks.com/apis/fake/todos/user/deyruby", {
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json",
+
+			},
+
+		})
+	}
+
+	const deleteWithTrash = (id) => {
+		console.log("id", id)
+		let auxVar = task.filter((element, _) => {
+			return element.id != id
+
+		})
+		console.log("variable aux", auxVar)
+		setTask(auxVar)
+
+		updateTask(auxVar)
+	}
+
+
 	const enterPressed = (event) => {
 		if (event.keyCode === 13 && event.target.value != "") {
 			let variableAux = [...task, { label: newtasks, done: false }]
-			setTask(variableAux)
 			updateTask(variableAux)
 			setNewtasks("")
 
@@ -124,10 +152,7 @@ const Home = () => {
 							task?.map((value, index) => {
 								//console.log("index", index)
 								return <li className="list" key={index}>{value.label}
-									<i onClick={() => setTask(task.filter((_, currentIndex) => {
-										console.log("currentIndex", currentIndex)
-										return currentIndex != index
-									}))} className="fa-solid fa-trash"></i>
+									<i onClick={() => deleteWithTrash(value.id)} className="fa-solid fa-trash"></i>
 								</li>
 							})
 
